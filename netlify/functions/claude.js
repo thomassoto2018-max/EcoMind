@@ -29,7 +29,7 @@ exports.handler = async (event) => {
     };
 
     const requestBody = JSON.stringify(geminiBody);
-    const path = `/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`;
+    const path = `/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY}`;
 
     const data = await new Promise((resolve, reject) => {
       const options = {
