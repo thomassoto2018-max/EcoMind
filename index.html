@@ -1258,7 +1258,6 @@ Reglas: 3 noticias exactas. Noticias reales y actuales. Priorizá impacto en Arg
       body: JSON.stringify({
         model:'claude-sonnet-4-20250514',
         max_tokens:1000,
-        tools:[{"type":"web_search_20250305","name":"web_search"}],
         messages:[{role:'user',content:prompt}]
       })
     });
@@ -1399,7 +1398,7 @@ async function sendMessage(){
   messages.scrollTop=messages.scrollHeight;
 
   try{
-    const res=await fetch('/api/claude',{
+    const res=await fetch('https://api.anthropic.com/v1/messages',{
       method:'POST',
       headers:{'Content-Type':'application/json'},
       body:JSON.stringify({
