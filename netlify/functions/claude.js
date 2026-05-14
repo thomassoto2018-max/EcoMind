@@ -6,8 +6,8 @@ exports.handler = async (event) => {
   }
   if (event.httpMethod !== 'POST') return { statusCode: 405, body: 'Method Not Allowed' };
 
-  const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
-  if (!GEMINI_API_KEY) {
+  const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
+  if (!OPENAI_API_KEY) {
     return { statusCode: 500, headers: { 'Access-Control-Allow-Origin': '*' }, body: JSON.stringify({ error: 'API key no configurada' }) };
   }
 
@@ -15,27 +15,28 @@ exports.handler = async (event) => {
     const anthropicBody = JSON.parse(event.body);
     const userMessage = anthropicBody.messages?.[0]?.content || '';
     const systemPrompt = anthropicBody.system || '';
-    const fullPrompt = systemPrompt ? `${systemPrompt}\n\n${userMessage}` : userMessage;
 
-    const geminiBody = {
-      contents: [{ role: 'user', parts: [{ text: fullPrompt }] }],
-      generationConfig: { maxOutputTokens: 2000, temperature: 0.7 },
-      safetySettings: [
-        { category: 'HARM_CATEGORY_HARASSMENT', threshold: 'BLOCK_NONE' },
-        { category: 'HARM_CATEGORY_HATE_SPEECH', threshold: 'BLOCK_NONE' },
-        { category: 'HARM_CATEGORY_SEXUALLY_EXPLICIT', threshold: 'BLOCK_NONE' },
-        { category: 'HARM_CATEGORY_DANGEROUS_CONTENT', threshold: 'BLOCK_NONE' }
+    const openaiBody = {
+      model: 'gpt-4o-mini',
+      max_tokens: 2000,
+      messages: [
+        ...(systemPrompt ? [{ role: 'system', content: systemPrompt }] : []),
+        { role: 'user', content: userMessage }
       ]
     };
 
-    const requestBody = JSON.stringify(geminiBody);
-    const path = `/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY}`;
+    const requestBody = JSON.stringify(openaiBody);
 
     const data = await new Promise((resolve, reject) => {
       const options = {
-        hostname: 'generativelanguage.googleapis.com',
-        path, method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Content-Length': Buffer.byteLength(requestBody) }
+        hostname: 'api.openai.com',
+        path: '/v1/chat/completions',
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${OPENAI_API_KEY}`,
+          'Content-Length': Buffer.byteLength(requestBody)
+        }
       };
       const req = https.request(options, (res) => {
         let body = '';
@@ -47,7 +48,7 @@ exports.handler = async (event) => {
       req.end();
     });
 
-    const text = data?.candidates?.[0]?.content?.parts?.[0]?.text || '';
+    const text = data?.choices?.[0]?.message?.content || '';
     return { statusCode: 200, headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' }, body: JSON.stringify({ content: [{ type: 'text', text }] }) };
 
   } catch (err) {
