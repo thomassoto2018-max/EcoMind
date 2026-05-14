@@ -1,0 +1,1424 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>ECOMIND | Economía para Todos</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#08090c;
+  --surface:#10141c;
+  --surface2:#171d28;
+  --accent:#00e5a0;
+  --accent2:#3d7fff;
+  --text:#eaf0fb;
+  --muted:#6b7a94;
+  --border:rgba(255,255,255,0.07);
+  --radius:18px;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;overflow-x:hidden;min-height:100vh;}
+
+/* ── NOISE OVERLAY ── */
+body::before{
+  content:'';position:fixed;inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events:none;z-index:999;opacity:.4;
+}
+
+/* ── NAVBAR ── */
+nav{
+  position:fixed;top:0;width:100%;z-index:100;
+  background:rgba(8,9,12,0.85);backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 48px;height:68px;
+}
+.logo{
+  font-family:'Syne',sans-serif;font-size:22px;font-weight:800;
+  color:var(--accent);letter-spacing:2px;
+}
+.nav-tabs{display:flex;gap:4px;}
+.nav-tab{
+  padding:8px 18px;border-radius:10px;cursor:pointer;
+  font-size:14px;font-weight:500;color:var(--muted);
+  transition:.25s;border:none;background:transparent;
+  font-family:'DM Sans',sans-serif;
+}
+.nav-tab:hover{color:var(--text);background:var(--surface);}
+.nav-tab.active{color:var(--accent);background:rgba(0,229,160,0.1);}
+.nav-right{display:flex;align-items:center;gap:12px;}
+.btn{
+  padding:10px 22px;border-radius:10px;font-weight:600;cursor:pointer;
+  font-size:14px;transition:.25s;font-family:'DM Sans',sans-serif;
+}
+.btn-primary{background:var(--accent);color:#000;border:none;}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,229,160,0.3);}
+.btn-outline{background:transparent;color:var(--text);border:1px solid var(--border);}
+.btn-outline:hover{border-color:var(--accent);color:var(--accent);}
+
+/* ── PAGES ── */
+.page{display:none;padding-top:68px;min-height:100vh;}
+.page.active{display:block;}
+
+/* ══════════════════════════════════
+   PAGE 1 — HOME
+══════════════════════════════════ */
+.hero{
+  padding:90px 48px 60px;
+  display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;
+  max-width:1200px;margin:0 auto;
+}
+.hero-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(0,229,160,0.1);border:1px solid rgba(0,229,160,0.25);
+  border-radius:100px;padding:6px 16px;font-size:13px;color:var(--accent);
+  margin-bottom:24px;font-weight:500;
+}
+.pulse{width:8px;height:8px;border-radius:50%;background:var(--accent);animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:.5;transform:scale(1.3);}}
+.hero h1{
+  font-family:'Syne',sans-serif;font-size:58px;font-weight:800;
+  line-height:1.05;margin-bottom:22px;
+}
+.hero h1 span{color:var(--accent);}
+.hero p{color:var(--muted);font-size:17px;line-height:1.7;margin-bottom:32px;}
+.hero-actions{display:flex;gap:12px;}
+
+/* newsletter card in hero */
+.hero-visual{position:relative;}
+.newsletter-preview{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:24px;padding:28px;
+  box-shadow:0 0 60px rgba(0,229,160,0.07);
+}
+.nl-header{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:20px;
+}
+.nl-week{font-family:'Syne',sans-serif;font-size:12px;font-weight:700;color:var(--accent);letter-spacing:2px;text-transform:uppercase;}
+.nl-share-btn{
+  display:flex;align-items:center;gap:6px;background:var(--surface2);
+  border:none;color:var(--muted);border-radius:8px;padding:6px 12px;
+  font-size:12px;cursor:pointer;font-family:'DM Sans',sans-serif;transition:.2s;
+}
+.nl-share-btn:hover{color:var(--accent);}
+.nl-title{font-family:'Syne',sans-serif;font-size:20px;font-weight:700;margin-bottom:12px;line-height:1.3;}
+.nl-body{color:var(--muted);font-size:14px;line-height:1.7;margin-bottom:20px;}
+.nl-tags{display:flex;gap:8px;flex-wrap:wrap;}
+.tag{
+  background:rgba(61,127,255,0.12);color:var(--accent2);
+  border-radius:6px;padding:4px 10px;font-size:12px;font-weight:500;
+}
+
+/* ── NEWSLETTER SECTION ── */
+.section{max-width:1200px;margin:0 auto;padding:60px 48px;}
+.section-label{
+  font-size:12px;font-weight:700;letter-spacing:3px;color:var(--accent);
+  text-transform:uppercase;margin-bottom:12px;
+}
+.section-title{
+  font-family:'Syne',sans-serif;font-size:38px;font-weight:800;margin-bottom:40px;
+}
+
+.nl-feed{display:flex;flex-direction:column;gap:20px;}
+.nl-card{
+  background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);
+  padding:28px;transition:.3s;cursor:pointer;
+}
+.nl-card:hover{border-color:rgba(0,229,160,0.3);transform:translateY(-2px);}
+.nl-meta{
+  display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;
+}
+.nl-date{font-size:12px;color:var(--muted);}
+.nl-actions{display:flex;align-items:center;gap:10px;}
+.like-btn,.share-btn{
+  display:flex;align-items:center;gap:5px;background:var(--surface2);
+  border:1px solid var(--border);border-radius:8px;padding:6px 12px;
+  font-size:13px;cursor:pointer;color:var(--muted);transition:.2s;
+  font-family:'DM Sans',sans-serif;
+}
+.like-btn:hover{color:#ff5e87;border-color:#ff5e87;}
+.like-btn.liked{color:#ff5e87;border-color:#ff5e87;background:rgba(255,94,135,0.1);}
+.share-btn:hover{color:var(--accent);border-color:var(--accent);}
+.nl-card h3{font-family:'Syne',sans-serif;font-size:20px;margin-bottom:10px;}
+.nl-card p{color:var(--muted);font-size:14px;line-height:1.6;}
+.nl-expand{color:var(--accent);font-size:13px;margin-top:14px;cursor:pointer;display:inline-block;}
+
+/* ── NEWSLETTER AUTO SYSTEM ── */
+.nl-header-bar{
+  display:flex;align-items:flex-start;justify-content:space-between;
+  flex-wrap:wrap;gap:16px;margin-bottom:32px;
+}
+.nl-status-bar{display:flex;align-items:center;gap:8px;margin-top:8px;font-size:13px;color:var(--muted);}
+.nl-dot{
+  width:8px;height:8px;border-radius:50%;background:var(--muted);flex-shrink:0;
+  transition:background .4s;
+}
+.nl-dot.live{background:var(--accent);animation:pulse 2s infinite;}
+.nl-dot.loading{background:#f59e0b;animation:pulse 1s infinite;}
+.nl-dot.error{background:#ff5e87;}
+.nl-gen-btn{
+  background:var(--surface2);border:1px solid var(--border);color:var(--text);
+  border-radius:12px;padding:10px 20px;font-size:14px;font-weight:600;
+  cursor:pointer;font-family:'DM Sans',sans-serif;transition:.25s;white-space:nowrap;
+}
+.nl-gen-btn:hover{border-color:var(--accent);color:var(--accent);}
+.nl-gen-btn:disabled{opacity:.4;cursor:not-allowed;}
+
+/* skeleton */
+.nl-skeleton{
+  background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);
+  padding:28px;margin-bottom:20px;
+}
+.skel-badge{width:120px;height:22px;border-radius:100px;background:var(--surface2);margin-bottom:16px;animation:skelPulse 1.4s ease-in-out infinite;}
+.skel-title{height:20px;width:70%;border-radius:6px;background:var(--surface2);margin-bottom:14px;animation:skelPulse 1.4s ease-in-out infinite;}
+.skel-line{height:13px;border-radius:4px;background:var(--surface2);margin-bottom:10px;animation:skelPulse 1.4s ease-in-out infinite;}
+@keyframes skelPulse{0%,100%{opacity:1;}50%{opacity:.35;}}
+
+/* edition cards */
+.nl-edition{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--radius);padding:28px;margin-bottom:20px;transition:.3s;
+}
+.nl-edition:hover{border-color:rgba(0,229,160,0.2);}
+.nl-edition-header{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:18px;}
+.nl-edition-badge{
+  display:inline-flex;align-items:center;gap:6px;
+  background:rgba(0,229,160,0.1);border:1px solid rgba(0,229,160,0.2);
+  border-radius:100px;padding:4px 14px;font-size:12px;color:var(--accent);font-weight:600;
+}
+.nl-edition-badge.today{background:rgba(0,229,160,0.15);}
+.nl-edition-date{font-size:12px;color:var(--muted);}
+.nl-edition-title{font-family:'Syne',sans-serif;font-size:22px;font-weight:800;margin-bottom:10px;line-height:1.2;}
+.nl-edition-resumen{color:var(--muted);font-size:14px;line-height:1.7;margin-bottom:20px;}
+
+.nl-noticia{
+  border-top:1px solid var(--border);padding-top:18px;margin-top:18px;
+}
+.nl-noticia-num{font-size:11px;font-weight:700;color:var(--accent2);letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;}
+.nl-noticia-titular{font-family:'Syne',sans-serif;font-size:17px;font-weight:700;margin-bottom:10px;line-height:1.3;}
+.nl-noticia-bloque{margin-bottom:8px;}
+.nl-noticia-label{font-size:12px;font-weight:600;color:var(--accent);text-transform:uppercase;letter-spacing:1px;margin-bottom:3px;}
+.nl-noticia-text{font-size:14px;color:var(--muted);line-height:1.7;}
+.nl-noticia-tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px;}
+
+.nl-conclusion{
+  border-top:1px solid var(--border);margin-top:18px;padding-top:16px;
+  font-size:14px;color:var(--muted);line-height:1.7;font-style:italic;
+}
+.nl-footer{
+  display:flex;align-items:center;justify-content:space-between;
+  flex-wrap:wrap;gap:10px;margin-top:20px;border-top:1px solid var(--border);padding-top:16px;
+}
+.nl-share-group{display:flex;gap:8px;flex-wrap:wrap;}
+.share-pill{
+  display:inline-flex;align-items:center;gap:5px;
+  background:var(--surface2);border:1px solid var(--border);
+  border-radius:8px;padding:6px 12px;font-size:12px;color:var(--muted);
+  cursor:pointer;text-decoration:none;transition:.2s;font-family:'DM Sans',sans-serif;
+}
+.share-pill:hover{color:var(--accent);border-color:rgba(0,229,160,0.3);}
+
+
+/* ── COMMENTS ── */
+.comments-section{margin-top:60px;}
+.comments-title{font-family:'Syne',sans-serif;font-size:24px;margin-bottom:20px;}
+.comment-input-wrap{
+  background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);
+  padding:20px;margin-bottom:24px;
+}
+.comment-input-wrap textarea{
+  width:100%;background:transparent;border:none;outline:none;
+  color:var(--text);font-family:'DM Sans',sans-serif;font-size:15px;
+  resize:none;min-height:80px;
+}
+.comment-input-wrap textarea::placeholder{color:var(--muted);}
+.comment-footer{display:flex;justify-content:flex-end;margin-top:12px;}
+.comments-list{display:flex;flex-direction:column;gap:16px;}
+.comment{
+  background:var(--surface);border:1px solid var(--border);border-radius:14px;
+  padding:18px;
+}
+.comment-header{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
+.avatar{
+  width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent2));
+  display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;color:#000;flex-shrink:0;
+}
+.comment-name{font-weight:600;font-size:14px;}
+.comment-time{font-size:12px;color:var(--muted);}
+.comment-text{color:var(--muted);font-size:14px;line-height:1.6;margin-bottom:12px;}
+.comment-like-btn{
+  display:inline-flex;align-items:center;gap:5px;background:transparent;
+  border:none;color:var(--muted);cursor:pointer;font-size:13px;font-family:'DM Sans',sans-serif;
+  padding:4px 8px;border-radius:6px;transition:.2s;
+}
+.comment-like-btn:hover{color:#ff5e87;}
+.comment-like-btn.liked{color:#ff5e87;}
+
+/* ── RANKING ── */
+.ranking-section{margin-top:60px;}
+.ranking-list{display:flex;flex-direction:column;gap:12px;}
+.rank-item{
+  background:var(--surface);border:1px solid var(--border);border-radius:14px;
+  padding:18px 24px;display:flex;align-items:center;gap:18px;transition:.2s;
+}
+.rank-item:hover{border-color:rgba(0,229,160,0.2);}
+.rank-num{
+  font-family:'Syne',sans-serif;font-size:22px;font-weight:800;
+  width:40px;flex-shrink:0;
+}
+.rank-num.gold{color:#ffd700;}
+.rank-num.silver{color:#c0c0c0;}
+.rank-num.bronze{color:#cd7f32;}
+.rank-num.other{color:var(--muted);}
+.rank-avatar{
+  width:44px;height:44px;border-radius:50%;
+  background:linear-gradient(135deg,var(--accent2),#9b59ff);
+  display:flex;align-items:center;justify-content:center;
+  font-weight:700;font-size:16px;color:#fff;flex-shrink:0;
+}
+.rank-info{flex:1;}
+.rank-name{font-weight:600;font-size:15px;margin-bottom:2px;}
+.rank-sub{font-size:13px;color:var(--muted);}
+.rank-score{font-family:'Syne',sans-serif;font-size:18px;font-weight:700;color:var(--accent);}
+
+/* ══════════════════════════════════
+   PAGE 2 — TIPO DE CAMBIO
+══════════════════════════════════ */
+.exchange-hero{
+  max-width:1200px;margin:0 auto;padding:60px 48px 40px;
+}
+.exchange-hero h1{font-family:'Syne',sans-serif;font-size:42px;font-weight:800;margin-bottom:8px;}
+.exchange-hero p{color:var(--muted);font-size:16px;}
+.live-badge{
+  display:inline-flex;align-items:center;gap:6px;margin-bottom:24px;
+  background:rgba(0,229,160,0.08);border:1px solid rgba(0,229,160,0.2);
+  border-radius:100px;padding:5px 14px;font-size:13px;color:var(--accent);font-weight:500;
+}
+.exchange-grid{
+  max-width:1200px;margin:0 auto;padding:0 48px 60px;
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:20px;
+}
+.currency-card{
+  background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);
+  padding:24px;transition:.3s;
+}
+.currency-card:hover{border-color:rgba(0,229,160,0.3);transform:translateY(-3px);}
+.currency-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;}
+.currency-flag{font-size:28px;}
+.currency-name{font-family:'Syne',sans-serif;font-size:16px;font-weight:700;}
+.currency-code{font-size:12px;color:var(--muted);}
+.currency-rate{font-family:'Syne',sans-serif;font-size:34px;font-weight:800;margin-bottom:6px;}
+.currency-change{
+  font-size:13px;font-weight:500;display:inline-flex;align-items:center;gap:4px;
+  padding:3px 8px;border-radius:6px;
+}
+.change-up{color:#00e5a0;background:rgba(0,229,160,0.1);}
+.change-down{color:#ff5e87;background:rgba(255,94,135,0.1);}
+.currency-source{font-size:11px;color:var(--muted);margin-top:12px;}
+
+.exchange-note{
+  max-width:1200px;margin:0 auto;padding:0 48px 60px;
+  background:rgba(61,127,255,0.05);border:1px solid rgba(61,127,255,0.15);
+  border-radius:var(--radius);color:var(--muted);font-size:13px;line-height:1.6;
+}
+
+/* ══════════════════════════════════
+   PAGE 3 — CURSOS
+══════════════════════════════════ */
+.courses-hero{max-width:1200px;margin:0 auto;padding:60px 48px 40px;}
+.courses-hero h1{font-family:'Syne',sans-serif;font-size:42px;font-weight:800;margin-bottom:8px;}
+.courses-hero p{color:var(--muted);font-size:16px;}
+.courses-grid{
+  max-width:1200px;margin:0 auto;padding:0 48px 40px;
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:24px;
+}
+.course-card{
+  background:var(--surface);border:1px solid var(--border);border-radius:24px;
+  overflow:hidden;transition:.3s;
+}
+.course-card:hover{transform:translateY(-4px);border-color:rgba(0,229,160,0.25);}
+.course-thumb{
+  height:180px;display:flex;align-items:center;justify-content:center;font-size:54px;
+  position:relative;overflow:hidden;
+}
+.course-thumb-1{background:linear-gradient(135deg,#0d2414,#003d20);}
+.course-thumb-2{background:linear-gradient(135deg,#0a1929,#003366);}
+.course-thumb-3{background:linear-gradient(135deg,#1a0d29,#3d0066);}
+.coming-badge{
+  position:absolute;top:14px;right:14px;
+  background:rgba(255,160,0,0.15);border:1px solid rgba(255,160,0,0.3);
+  color:#ffa000;border-radius:6px;padding:4px 10px;font-size:11px;font-weight:600;
+}
+.course-body{padding:24px;}
+.course-body h3{font-family:'Syne',sans-serif;font-size:20px;font-weight:700;margin-bottom:8px;}
+.course-body p{color:var(--muted);font-size:14px;line-height:1.6;margin-bottom:20px;}
+.course-meta{display:flex;align-items:center;gap:12px;margin-bottom:20px;flex-wrap:wrap;}
+.course-tag{
+  background:var(--surface2);border:1px solid var(--border);
+  border-radius:6px;padding:4px 10px;font-size:12px;color:var(--muted);
+}
+.course-actions{display:flex;gap:10px;}
+.btn-mp{
+  display:flex;align-items:center;gap:6px;background:#009ee3;color:#fff;
+  border:none;border-radius:10px;padding:10px 18px;font-size:14px;font-weight:600;
+  cursor:pointer;font-family:'DM Sans',sans-serif;transition:.2s;text-decoration:none;
+}
+.btn-mp:hover{background:#007bbf;transform:translateY(-1px);}
+.btn-wsp{
+  display:flex;align-items:center;gap:6px;background:#25d366;color:#fff;
+  border:none;border-radius:10px;padding:10px 18px;font-size:14px;font-weight:600;
+  cursor:pointer;font-family:'DM Sans',sans-serif;transition:.2s;text-decoration:none;
+}
+.btn-wsp:hover{background:#1da851;transform:translateY(-1px);}
+
+.contact-banner{
+  max-width:1200px;margin:0 auto;padding:0 48px 60px;
+}
+.contact-inner{
+  background:var(--surface);border:1px solid var(--border);border-radius:24px;
+  padding:36px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:20px;
+}
+.contact-text h3{font-family:'Syne',sans-serif;font-size:22px;margin-bottom:6px;}
+.contact-text p{color:var(--muted);font-size:14px;}
+.contact-btns{display:flex;gap:12px;flex-wrap:wrap;}
+
+/* ══════════════════════════════════
+   PAGE 4 — RELATOS
+══════════════════════════════════ */
+.stories-hero{max-width:1200px;margin:0 auto;padding:60px 48px 40px;}
+.stories-hero h1{font-family:'Syne',sans-serif;font-size:42px;font-weight:800;margin-bottom:8px;}
+.stories-hero p{color:var(--muted);font-size:16px;}
+.stories-feed{max-width:1200px;margin:0 auto;padding:0 48px 60px;display:flex;flex-direction:column;gap:24px;}
+.story-card{
+  background:var(--surface);border:1px solid var(--border);border-radius:24px;padding:32px;transition:.3s;
+}
+.story-card:hover{border-color:rgba(0,229,160,0.2);}
+.story-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:20px;}
+.story-author{display:flex;align-items:center;gap:12px;}
+.story-author-name{font-weight:600;font-size:15px;margin-bottom:2px;}
+.story-author-role{font-size:12px;color:var(--accent);font-weight:500;}
+.story-date{font-size:12px;color:var(--muted);}
+.story-title{font-family:'Syne',sans-serif;font-size:26px;font-weight:800;margin-bottom:14px;line-height:1.2;}
+.story-preview{color:var(--muted);font-size:15px;line-height:1.7;margin-bottom:24px;}
+.story-footer{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;}
+.story-tags{display:flex;gap:8px;flex-wrap:wrap;}
+.story-actions{display:flex;gap:10px;}
+
+/* ══════════════════════════════════
+   PAGE 5 — CHAT IA
+══════════════════════════════════ */
+.chat-wrap{max-width:900px;margin:0 auto;padding:40px 48px 80px;}
+.chat-header{text-align:center;margin-bottom:40px;}
+.chat-header h1{font-family:'Syne',sans-serif;font-size:36px;font-weight:800;margin-bottom:10px;}
+.chat-header p{color:var(--muted);font-size:15px;}
+
+.lock-card{
+  background:var(--surface);border:1px solid var(--border);border-radius:24px;
+  padding:40px;text-align:center;margin-bottom:32px;
+}
+.lock-icon{font-size:48px;margin-bottom:16px;}
+.lock-card h2{font-family:'Syne',sans-serif;font-size:24px;margin-bottom:10px;}
+.lock-card p{color:var(--muted);font-size:14px;line-height:1.6;margin-bottom:24px;}
+.lock-actions{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin-bottom:24px;}
+.or-divider{
+  display:flex;align-items:center;gap:12px;color:var(--muted);font-size:13px;margin:20px 0;
+}
+.or-divider::before,.or-divider::after{content:'';flex:1;height:1px;background:var(--border);}
+.unlock-form{
+  background:var(--surface2);border:1px solid var(--border);border-radius:14px;
+  padding:20px;text-align:left;
+}
+.unlock-form label{font-size:13px;color:var(--muted);margin-bottom:6px;display:block;}
+.unlock-form input{
+  width:100%;background:var(--bg);border:1px solid var(--border);
+  border-radius:8px;padding:10px 14px;color:var(--text);outline:none;
+  font-family:'DM Sans',sans-serif;font-size:14px;margin-bottom:12px;transition:.2s;
+}
+.unlock-form input:focus{border-color:var(--accent);}
+
+/* CHAT UI (unlocked) */
+.chat-ui{display:none;flex-direction:column;gap:0;}
+.chat-ui.unlocked{display:flex;}
+.chat-messages{
+  background:var(--surface);border:1px solid var(--border);border-radius:24px 24px 0 0;
+  padding:24px;min-height:420px;max-height:420px;overflow-y:auto;
+  display:flex;flex-direction:column;gap:16px;
+}
+.chat-messages::-webkit-scrollbar{width:6px;}
+.chat-messages::-webkit-scrollbar-track{background:transparent;}
+.chat-messages::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px;}
+.msg{display:flex;gap:10px;align-items:flex-start;}
+.msg.user{flex-direction:row-reverse;}
+.msg-bubble{
+  background:var(--surface2);border-radius:16px;padding:12px 16px;
+  font-size:14px;line-height:1.6;max-width:70%;
+}
+.msg.user .msg-bubble{background:rgba(0,229,160,0.12);color:var(--text);}
+.msg.ai .msg-bubble{color:var(--text);}
+.ai-avatar{
+  width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent2));
+  flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:14px;
+}
+.chat-input-area{
+  background:var(--surface);border:1px solid var(--border);border-radius:0 0 24px 24px;
+  border-top:none;padding:16px;display:flex;gap:10px;
+}
+.chat-input{
+  flex:1;background:var(--bg);border:1px solid var(--border);border-radius:12px;
+  padding:12px 16px;color:var(--text);outline:none;font-family:'DM Sans',sans-serif;
+  font-size:14px;transition:.2s;
+}
+.chat-input:focus{border-color:var(--accent);}
+.send-btn{
+  background:var(--accent);color:#000;border:none;border-radius:12px;
+  padding:12px 20px;cursor:pointer;font-weight:700;font-size:18px;transition:.2s;
+}
+.send-btn:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(0,229,160,0.3);}
+.chat-disclaimer{font-size:12px;color:var(--muted);text-align:center;margin-top:12px;}
+
+/* suggested questions */
+.suggestions{
+  display:flex;flex-wrap:wrap;gap:8px;margin-bottom:0;
+  background:var(--surface);border:1px solid var(--border);border-top:none;
+  padding:12px 16px;
+}
+.suggestion-chip{
+  background:var(--surface2);border:1px solid var(--border);border-radius:8px;
+  padding:6px 12px;font-size:12px;cursor:pointer;color:var(--muted);transition:.2s;
+  font-family:'DM Sans',sans-serif;
+}
+.suggestion-chip:hover{color:var(--accent);border-color:rgba(0,229,160,0.3);}
+
+/* ── LOADING SPINNER ── */
+.typing{display:flex;gap:5px;align-items:center;padding:4px 0;}
+.typing span{
+  width:7px;height:7px;border-radius:50%;background:var(--accent);
+  animation:bounce .9s infinite;
+}
+.typing span:nth-child(2){animation-delay:.2s;}
+.typing span:nth-child(3){animation-delay:.4s;}
+@keyframes bounce{0%,60%,100%{transform:translateY(0);}30%{transform:translateY(-8px);}}
+
+/* ── SHARE MODAL ── */
+.modal-overlay{
+  display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);
+  z-index:500;align-items:center;justify-content:center;backdrop-filter:blur(4px);
+}
+.modal-overlay.open{display:flex;}
+.modal{
+  background:var(--surface);border:1px solid var(--border);border-radius:24px;
+  padding:32px;max-width:460px;width:90%;
+}
+.modal h3{font-family:'Syne',sans-serif;font-size:22px;margin-bottom:8px;}
+.modal p{color:var(--muted);font-size:14px;margin-bottom:24px;}
+.share-options{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.share-opt{
+  background:var(--surface2);border:1px solid var(--border);border-radius:14px;
+  padding:16px;text-align:center;cursor:pointer;transition:.2s;text-decoration:none;color:var(--text);
+}
+.share-opt:hover{border-color:var(--accent);transform:translateY(-2px);}
+.share-opt-icon{font-size:24px;margin-bottom:8px;}
+.share-opt-name{font-size:13px;font-weight:600;}
+.modal-close{
+  margin-top:20px;width:100%;background:transparent;border:1px solid var(--border);
+  border-radius:10px;padding:10px;color:var(--muted);cursor:pointer;
+  font-family:'DM Sans',sans-serif;font-size:14px;transition:.2s;
+}
+.modal-close:hover{color:var(--text);}
+
+/* ── TOAST ── */
+.toast{
+  position:fixed;bottom:24px;right:24px;z-index:600;
+  background:var(--surface);border:1px solid rgba(0,229,160,0.3);border-radius:12px;
+  padding:14px 20px;font-size:14px;color:var(--accent);font-weight:500;
+  transform:translateY(80px);opacity:0;transition:.4s cubic-bezier(.34,1.56,.64,1);
+  box-shadow:0 8px 32px rgba(0,0,0,0.3);
+}
+.toast.show{transform:translateY(0);opacity:1;}
+
+/* ── RESPONSIVE ── */
+@media(max-width:900px){
+  nav{padding:0 20px;}
+  .nav-tab{padding:7px 10px;font-size:13px;}
+  .logo{font-size:18px;}
+  .hero{grid-template-columns:1fr;padding:40px 20px;}
+  .hero h1{font-size:38px;}
+  .hero-visual{display:none;}
+  .section,.exchange-hero,.courses-hero,.stories-hero,.chat-wrap{padding-left:20px;padding-right:20px;}
+  .exchange-grid,.courses-grid,.stories-feed{padding-left:20px;padding-right:20px;}
+  .contact-banner{padding-left:20px;padding-right:20px;}
+}
+@media(max-width:600px){
+  .hero h1{font-size:30px;}
+  .nav-tabs{gap:0;}
+  .nav-tab{font-size:11px;padding:6px 8px;}
+  .nav-right{display:none;}
+}
+</style>
+</head>
+<body>
+
+<!-- ═══ NAVBAR ═══ -->
+<nav>
+  <div class="logo">ECOMIND</div>
+  <div class="nav-tabs">
+    <button class="nav-tab active" onclick="goTo('home',this)">Inicio</button>
+    <button class="nav-tab" onclick="goTo('cambio',this)">Tipo de Cambio</button>
+    <button class="nav-tab" onclick="goTo('cursos',this)">Cursos</button>
+    <button class="nav-tab" onclick="goTo('relatos',this)">Relatos</button>
+    <button class="nav-tab" onclick="goTo('chat',this)">Chat IA</button>
+  </div>
+  <div class="nav-right">
+    <button class="btn btn-outline">Ingresar</button>
+    <button class="btn btn-primary">Empezar</button>
+  </div>
+</nav>
+
+<!-- ═══════════════════════════════
+     PAGE 1 — HOME
+═══════════════════════════════ -->
+<div class="page active" id="page-home">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-left">
+      <div class="hero-badge"><span class="pulse"></span> Economía para todos</div>
+      <h1>Entendé el dinero. <span>Tomá mejores decisiones.</span></h1>
+      <p>Noticias económicas semanales, tipo de cambio en tiempo real, cursos de finanzas y una comunidad que aprende junta.</p>
+      <div class="hero-actions">
+        <button class="btn btn-primary" onclick="goToId('newsletter-section')">Ver Newsletter</button>
+        <button class="btn btn-outline" onclick="goTo('chat',document.querySelectorAll('.nav-tab')[4])">Probar Chat IA</button>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="newsletter-preview">
+        <div class="nl-header">
+          <span class="nl-week">Semana #12 · 2026</span>
+          <button class="nl-share-btn" onclick="openShare('Newsletter semanal de ECOMIND — Economía argentina al día')">↑ Compartir</button>
+        </div>
+        <div class="nl-title">El dólar y la nueva regla fiscal: todo lo que necesitás saber</div>
+        <div class="nl-body">Esta semana el mercado cambiario mostró señales de estabilización mientras el gobierno confirmó nuevos lineamientos del programa fiscal acordado con el FMI...</div>
+        <div class="nl-tags">
+          <span class="tag">Dólar</span>
+          <span class="tag">FMI</span>
+          <span class="tag">Fiscal</span>
+          <span class="tag">Mercados</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- NEWSLETTER FEED AUTO -->
+  <div class="section" id="newsletter-section">
+    <div class="nl-header-bar">
+      <div>
+        <div class="section-label">Newsletter diario · IA</div>
+        <h2 class="section-title" style="margin-bottom:6px;">Economía de hoy explicada simple</h2>
+        <div class="nl-status-bar" id="nl-status-bar">
+          <span class="nl-dot" id="nl-dot"></span>
+          <span id="nl-status-text">Verificando edición de hoy...</span>
+        </div>
+      </div>
+      <div class="nl-controls">
+        <button class="nl-gen-btn" id="nl-gen-btn" onclick="triggerNewsletter(false)">
+          ↻ Generar ahora
+        </button>
+      </div>
+    </div>
+
+    <div id="nl-generating" style="display:none;">
+      <div class="nl-skeleton">
+        <div class="skel-badge"></div>
+        <div class="skel-title"></div>
+        <div class="skel-line" style="width:90%"></div>
+        <div class="skel-line" style="width:75%"></div>
+        <div class="skel-line" style="width:60%"></div>
+        <div style="margin-top:20px;display:flex;gap:8px;">
+          <div class="skel-line" style="width:60px;margin:0"></div>
+          <div class="skel-line" style="width:80px;margin:0"></div>
+          <div class="skel-line" style="width:70px;margin:0"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="nl-feed" id="nl-feed">
+      <!-- newsletters rendered by JS -->
+    </div>
+
+    <!-- COMMENTS -->
+    <div class="comments-section">
+      <h3 class="comments-title">Comentarios de la comunidad</h3>
+      <div class="comment-input-wrap">
+        <textarea id="comment-input" placeholder="¿Qué opinás? Dejá tu comentario..."></textarea>
+        <div class="comment-footer">
+          <button class="btn btn-primary" onclick="addComment()" style="padding:8px 20px;font-size:13px;">Publicar</button>
+        </div>
+      </div>
+      <div class="comments-list" id="comments-list">
+        <div class="comment">
+          <div class="comment-header">
+            <div class="avatar">MR</div>
+            <div>
+              <div class="comment-name">Martina R.</div>
+              <div class="comment-time">hace 2 horas</div>
+            </div>
+          </div>
+          <div class="comment-text">Excelente explicación sobre el tipo de cambio. Por fin algo que entiendo sin ser economista 🙌</div>
+          <button class="comment-like-btn" onclick="toggleCommentLike(this)">♥ <span>24</span></button>
+        </div>
+        <div class="comment">
+          <div class="comment-header">
+            <div class="avatar" style="background:linear-gradient(135deg,#3d7fff,#9b59ff)">JF</div>
+            <div>
+              <div class="comment-name">Juan F.</div>
+              <div class="comment-time">hace 5 horas</div>
+            </div>
+          </div>
+          <div class="comment-text">¿Saben cuándo sale el próximo newsletter? Me perdí el de la semana pasada y no lo puedo creer jaja</div>
+          <button class="comment-like-btn" onclick="toggleCommentLike(this)">♥ <span>11</span></button>
+        </div>
+        <div class="comment">
+          <div class="comment-header">
+            <div class="avatar" style="background:linear-gradient(135deg,#ff5e87,#ff9000)">SC</div>
+            <div>
+              <div class="comment-name">Sol C.</div>
+              <div class="comment-time">ayer</div>
+            </div>
+          </div>
+          <div class="comment-text">Me encanta el Chat IA, le pregunté sobre el plazo fijo y me respondió mejor que cualquier asesor del banco. 10/10 🔥</div>
+          <button class="comment-like-btn" onclick="toggleCommentLike(this)">♥ <span>38</span></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- RANKING -->
+    <div class="ranking-section" style="margin-top:60px;">
+      <div class="section-label">Comunidad</div>
+      <h2 class="section-title" style="margin-bottom:24px;">Ranking de miembros activos</h2>
+      <div class="ranking-list">
+        <div class="rank-item">
+          <div class="rank-num gold">1</div>
+          <div class="rank-avatar" style="background:linear-gradient(135deg,#ffd700,#ff9900)">LP</div>
+          <div class="rank-info"><div class="rank-name">Laura P.</div><div class="rank-sub">42 comentarios · 18 semanas activa</div></div>
+          <div class="rank-score">980 pts</div>
+        </div>
+        <div class="rank-item">
+          <div class="rank-num silver">2</div>
+          <div class="rank-avatar" style="background:linear-gradient(135deg,#c0c0c0,#7d7d7d)">AG</div>
+          <div class="rank-info"><div class="rank-name">Agustín G.</div><div class="rank-sub">35 comentarios · 15 semanas activo</div></div>
+          <div class="rank-score">840 pts</div>
+        </div>
+        <div class="rank-item">
+          <div class="rank-num bronze">3</div>
+          <div class="rank-avatar" style="background:linear-gradient(135deg,#cd7f32,#7a4500)">VC</div>
+          <div class="rank-info"><div class="rank-name">Valentina C.</div><div class="rank-sub">28 comentarios · 12 semanas activa</div></div>
+          <div class="rank-score">710 pts</div>
+        </div>
+        <div class="rank-item">
+          <div class="rank-num other">4</div>
+          <div class="rank-avatar" style="background:linear-gradient(135deg,#3d7fff,#9b59ff)">MR</div>
+          <div class="rank-info"><div class="rank-name">Martina R.</div><div class="rank-sub">19 comentarios · 8 semanas activa</div></div>
+          <div class="rank-score">530 pts</div>
+        </div>
+        <div class="rank-item">
+          <div class="rank-num other">5</div>
+          <div class="rank-avatar" style="background:linear-gradient(135deg,#00e5a0,#006eff)">JF</div>
+          <div class="rank-info"><div class="rank-name">Juan F.</div><div class="rank-sub">14 comentarios · 6 semanas activo</div></div>
+          <div class="rank-score">390 pts</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══════════════════════════════
+     PAGE 2 — TIPO DE CAMBIO
+═══════════════════════════════ -->
+<div class="page" id="page-cambio">
+  <div class="exchange-hero">
+    <div class="live-badge"><span class="pulse"></span> Actualización automática</div>
+    <h1>Tipo de Cambio</h1>
+    <p>Cotizaciones actualizadas desde BluelyAPI y portales oficiales del BCRA.</p>
+  </div>
+  <div class="exchange-grid" id="exchange-grid">
+    <!-- Cards se generan por JS -->
+    <div style="grid-column:1/-1;color:var(--muted);text-align:center;padding:40px;">
+      <div class="typing" style="justify-content:center;"><span></span><span></span><span></span></div>
+      <p style="margin-top:14px;font-size:14px;">Cargando cotizaciones...</p>
+    </div>
+  </div>
+  <div class="section" style="padding-top:0;">
+    <div class="exchange-note" style="padding:20px 24px;">
+      ⚠️ Las cotizaciones mostradas son de carácter informativo. Consultá siempre fuentes oficiales antes de operar. Datos provistos por portales especializados en mercado cambiario argentino.
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════
+     PAGE 3 — CURSOS
+═══════════════════════════════ -->
+<div class="page" id="page-cursos">
+  <div class="courses-hero">
+    <div class="section-label">Educación financiera</div>
+    <h1>Cursos de Finanzas</h1>
+    <p>Aprendé a manejar tu dinero, invertir y entender la economía. Sin tecnicismos.</p>
+  </div>
+  <div class="courses-grid">
+
+    <div class="course-card">
+      <div class="course-thumb course-thumb-1">💰<span class="coming-badge">Próximamente</span></div>
+      <div class="course-body">
+        <h3>Finanzas Personales desde Cero</h3>
+        <p>Aprendé a presupuestar, ahorrar y generar un fondo de emergencia. Todo lo que no te enseñaron en la escuela.</p>
+        <div class="course-meta">
+          <span class="course-tag">📚 8 clases</span>
+          <span class="course-tag">🕐 4 horas</span>
+          <span class="course-tag">Básico</span>
+        </div>
+        <div class="course-actions">
+          <a href="https://wa.me/5491112345678?text=Hola!%20Me%20interesa%20el%20curso%20de%20Finanzas%20Personales" target="_blank" class="btn-wsp">💬 WhatsApp</a>
+          <a href="https://www.mercadopago.com.ar" target="_blank" class="btn-mp">💳 Inscribirme</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="course-card">
+      <div class="course-thumb course-thumb-2">📈<span class="coming-badge">Próximamente</span></div>
+      <div class="course-body">
+        <h3>Introducción a la Inversión</h3>
+        <p>Plazo fijo, acciones, bonos, FCI y criptomonedas. Entendé cada instrumento y cómo elegir según tu perfil.</p>
+        <div class="course-meta">
+          <span class="course-tag">📚 12 clases</span>
+          <span class="course-tag">🕐 6 horas</span>
+          <span class="course-tag">Intermedio</span>
+        </div>
+        <div class="course-actions">
+          <a href="https://wa.me/5491112345678?text=Hola!%20Me%20interesa%20el%20curso%20de%20Inversión" target="_blank" class="btn-wsp">💬 WhatsApp</a>
+          <a href="https://www.mercadopago.com.ar" target="_blank" class="btn-mp">💳 Inscribirme</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="course-card">
+      <div class="course-thumb course-thumb-3">🌍<span class="coming-badge">Próximamente</span></div>
+      <div class="course-body">
+        <h3>Economía Global para Todos</h3>
+        <p>Entendé el FMI, la deuda externa, los tipos de cambio y por qué lo que pasa en el mundo te afecta el bolsillo.</p>
+        <div class="course-meta">
+          <span class="course-tag">📚 10 clases</span>
+          <span class="course-tag">🕐 5 horas</span>
+          <span class="course-tag">Intermedio</span>
+        </div>
+        <div class="course-actions">
+          <a href="https://wa.me/5491112345678?text=Hola!%20Me%20interesa%20el%20curso%20de%20Economía%20Global" target="_blank" class="btn-wsp">💬 WhatsApp</a>
+          <a href="https://www.mercadopago.com.ar" target="_blank" class="btn-mp">💳 Inscribirme</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="contact-banner">
+    <div class="contact-inner">
+      <div class="contact-text">
+        <h3>¿Tenés alguna duda antes de inscribirte?</h3>
+        <p>Hablanos por WhatsApp o pasá por Mercado Pago para ver los precios y métodos de pago disponibles.</p>
+      </div>
+      <div class="contact-btns">
+        <a href="https://wa.me/5491112345678?text=Hola!%20Quiero%20información%20sobre%20los%20cursos" target="_blank" class="btn-wsp">💬 Escribinos</a>
+        <a href="https://www.mercadopago.com.ar" target="_blank" class="btn-mp">💳 Ver precios</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════
+     PAGE 4 — RELATOS
+═══════════════════════════════ -->
+<div class="page" id="page-relatos">
+  <div class="stories-hero">
+    <div class="section-label">Del autor</div>
+    <h1>Relatos de Economía</h1>
+    <p>Historias, reflexiones y análisis escritos para que cualquiera entienda el mundo económico.</p>
+  </div>
+  <div class="stories-feed">
+
+    <div class="story-card">
+      <div class="story-header">
+        <div class="story-author">
+          <div class="avatar">EC</div>
+          <div>
+            <div class="story-author-name">Editor ECOMIND</div>
+            <div class="story-author-role">Autor</div>
+          </div>
+        </div>
+        <div class="story-date">10 de mayo, 2026</div>
+      </div>
+      <div class="story-title">El día que el peso valió menos que una factura de luz</div>
+      <div class="story-preview">Era diciembre de 2001 y mi abuelo guardaba billetes en una lata de galletitas. No por desconfianza al banco —aunque también— sino porque decía que el peso era tan liviano que se lo llevaba el viento. Cuarenta y cinco años después, a veces siento que su lata todavía tiene razón...</div>
+      <div class="story-footer">
+        <div class="story-tags">
+          <span class="tag">Historia</span>
+          <span class="tag">Argentina</span>
+          <span class="tag">Inflación</span>
+        </div>
+        <div class="story-actions">
+          <button class="like-btn" onclick="toggleLike(this)">♥ <span class="lcount">112</span></button>
+          <button class="share-btn" onclick="openShare('El día que el peso valió menos que una factura de luz — ECOMIND')">↑ Compartir</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="story-card">
+      <div class="story-header">
+        <div class="story-author">
+          <div class="avatar">EC</div>
+          <div>
+            <div class="story-author-name">Editor ECOMIND</div>
+            <div class="story-author-role">Autor</div>
+          </div>
+        </div>
+        <div class="story-date">3 de mayo, 2026</div>
+      </div>
+      <div class="story-title">La primera vez que invertí y perdí todo en una semana</div>
+      <div class="story-preview">Tenía 22 años, un sueldo de empleado administrativo y la certeza de que había encontrado el secreto de los ricos. Spoiler: no lo había encontrado. Pero lo que aprendí esa semana vale más que cualquier ganancia que haya tenido después...</div>
+      <div class="story-footer">
+        <div class="story-tags">
+          <span class="tag">Inversión</span>
+          <span class="tag">Experiencia personal</span>
+        </div>
+        <div class="story-actions">
+          <button class="like-btn" onclick="toggleLike(this)">♥ <span class="lcount">89</span></button>
+          <button class="share-btn" onclick="openShare('La primera vez que invertí y perdí todo en una semana — ECOMIND')">↑ Compartir</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="story-card">
+      <div class="story-header">
+        <div class="story-author">
+          <div class="avatar">EC</div>
+          <div>
+            <div class="story-author-name">Editor ECOMIND</div>
+            <div class="story-author-role">Autor</div>
+          </div>
+        </div>
+        <div class="story-date">26 de abril, 2026</div>
+      </div>
+      <div class="story-title">Qué pasaría si Argentina tuviera el dólar de Ecuador</div>
+      <div class="story-preview">Un ejercicio imaginario (y a veces doloroso) sobre qué implicaría una dolarización total. Más allá de la política, la pregunta es concreta: ¿quién ganaría, quién perdería y qué pasaría con los que viven de un sueldo en blanco?</div>
+      <div class="story-footer">
+        <div class="story-tags">
+          <span class="tag">Dolarización</span>
+          <span class="tag">Política económica</span>
+          <span class="tag">Análisis</span>
+        </div>
+        <div class="story-actions">
+          <button class="like-btn" onclick="toggleLike(this)">♥ <span class="lcount">204</span></button>
+          <button class="share-btn" onclick="openShare('Qué pasaría si Argentina tuviera el dólar de Ecuador — ECOMIND')">↑ Compartir</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══════════════════════════════
+     PAGE 5 — CHAT IA
+═══════════════════════════════ -->
+<div class="page" id="page-chat">
+  <div class="chat-wrap">
+    <div class="chat-header">
+      <h1>Chat IA Financiero 🤖</h1>
+      <p>Preguntale lo que quieras sobre economía, inversiones, finanzas y más.</p>
+    </div>
+
+    <!-- LOCK STATE -->
+    <div class="lock-card" id="lock-card">
+      <div class="lock-icon">🔒</div>
+      <h2>Acceso con membresía</h2>
+      <p>El Chat IA está disponible para miembros activos. Pagás una vez y podés hacer todas las consultas que quieras sobre finanzas, acciones, tipo de cambio, inversiones y más.</p>
+      <div class="lock-actions">
+        <a href="https://www.mercadopago.com.ar" target="_blank" class="btn-mp" style="text-decoration:none;">💳 Pagar con Mercado Pago</a>
+        <a href="https://wa.me/5491112345678?text=Hola!%20Quiero%20acceder%20al%20Chat%20IA" target="_blank" class="btn-wsp" style="text-decoration:none;">💬 Consultar por WhatsApp</a>
+      </div>
+      <div class="or-divider">o</div>
+      <div class="unlock-form">
+        <label>¿Ya tenés tu contraseña de acceso?</label>
+        <input type="password" id="access-pass" placeholder="Ingresá tu contraseña..." onkeydown="if(event.key==='Enter')tryUnlock()"/>
+        <button class="btn btn-primary" style="width:100%;" onclick="tryUnlock()">Acceder al Chat</button>
+      </div>
+    </div>
+
+    <!-- CHAT UI (hidden until unlocked) -->
+    <div class="chat-ui" id="chat-ui">
+      <div class="chat-messages" id="chat-messages">
+        <div class="msg ai">
+          <div class="ai-avatar">🤖</div>
+          <div class="msg-bubble">¡Hola! Soy el asistente financiero de ECOMIND. Podés preguntarme sobre acciones, bonos, tipo de cambio, inflación, inversiones o cualquier duda económica. ¿Por dónde arrancamos?</div>
+        </div>
+      </div>
+      <div class="suggestions" id="suggestions">
+        <button class="suggestion-chip" onclick="sendSuggestion(this)">¿Cómo funciona el plazo fijo?</button>
+        <button class="suggestion-chip" onclick="sendSuggestion(this)">¿Qué es el dólar MEP?</button>
+        <button class="suggestion-chip" onclick="sendSuggestion(this)">¿Conviene invertir en crypto?</button>
+        <button class="suggestion-chip" onclick="sendSuggestion(this)">¿Qué es el riesgo país?</button>
+      </div>
+      <div class="chat-input-area">
+        <input type="text" class="chat-input" id="chat-input" placeholder="Preguntá sobre finanzas, inversiones, economía..." onkeydown="if(event.key==='Enter')sendMessage()"/>
+        <button class="send-btn" onclick="sendMessage()">↑</button>
+      </div>
+      <div class="chat-disclaimer">Las respuestas son orientativas y no constituyen asesoramiento financiero profesional.</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- SHARE MODAL -->
+<div class="modal-overlay" id="share-modal" onclick="if(event.target===this)closeShare()">
+  <div class="modal">
+    <h3>Compartir</h3>
+    <p id="share-title-text"></p>
+    <div class="share-options">
+      <a id="share-whatsapp" href="#" target="_blank" class="share-opt">
+        <div class="share-opt-icon">💬</div>
+        <div class="share-opt-name">WhatsApp</div>
+      </a>
+      <a id="share-twitter" href="#" target="_blank" class="share-opt">
+        <div class="share-opt-icon">𝕏</div>
+        <div class="share-opt-name">Twitter / X</div>
+      </a>
+      <a id="share-telegram" href="#" target="_blank" class="share-opt">
+        <div class="share-opt-icon">✈️</div>
+        <div class="share-opt-name">Telegram</div>
+      </a>
+      <div class="share-opt" onclick="copyLink()">
+        <div class="share-opt-icon">🔗</div>
+        <div class="share-opt-name">Copiar enlace</div>
+      </div>
+    </div>
+    <button class="modal-close" onclick="closeShare()">Cerrar</button>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ── NAVIGATION ──────────────────────────────────────────────────
+function goTo(pageKey, tabEl){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('page-'+pageKey).classList.add('active');
+  if(tabEl) tabEl.classList.add('active');
+  window.scrollTo(0,0);
+
+  if(pageKey==='cambio') loadExchange();
+}
+
+// Auto-check newsletter on first load
+window.addEventListener('DOMContentLoaded', ()=> nlAutoCheck());
+function goToId(id){
+  const el=document.getElementById(id);
+  if(el) el.scrollIntoView({behavior:'smooth'});
+}
+
+// ── LIKES ────────────────────────────────────────────────────────
+function toggleLike(btn){
+  const span=btn.querySelector('.lcount');
+  const liked=btn.classList.toggle('liked');
+  span.textContent=parseInt(span.textContent)+(liked?1:-1);
+}
+function toggleCommentLike(btn){
+  const span=btn.querySelector('span');
+  const liked=btn.classList.toggle('liked');
+  span.textContent=parseInt(span.textContent)+(liked?1:-1);
+}
+
+// ── EXPAND ───────────────────────────────────────────────────────
+function toggleExpand(el){
+  const full=el.nextElementSibling;
+  if(full.style.display==='none'){full.style.display='block';el.textContent='Leer menos ↑';}
+  else{full.style.display='none';el.textContent='Leer más ↓';}
+}
+
+// ── COMMENTS ─────────────────────────────────────────────────────
+function addComment(){
+  const input=document.getElementById('comment-input');
+  const text=input.value.trim();
+  if(!text) return;
+  const list=document.getElementById('comments-list');
+  const div=document.createElement('div');
+  div.className='comment';
+  div.innerHTML=`
+    <div class="comment-header">
+      <div class="avatar" style="background:linear-gradient(135deg,#00e5a0,#006eff)">Vos</div>
+      <div><div class="comment-name">Vos</div><div class="comment-time">ahora</div></div>
+    </div>
+    <div class="comment-text">${escapeHtml(text)}</div>
+    <button class="comment-like-btn" onclick="toggleCommentLike(this)">♥ <span>0</span></button>`;
+  list.prepend(div);
+  input.value='';
+  showToast('✅ Comentario publicado');
+}
+function escapeHtml(t){
+  return t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+// ── SHARE MODAL ───────────────────────────────────────────────────
+let currentShareTitle='';
+function openShare(title){
+  currentShareTitle=title;
+  document.getElementById('share-title-text').textContent=title;
+  const url=encodeURIComponent(window.location.href);
+  const text=encodeURIComponent(title+' — Leelo en ECOMIND: ');
+  document.getElementById('share-whatsapp').href='https://wa.me/?text='+text+url;
+  document.getElementById('share-twitter').href='https://twitter.com/intent/tweet?text='+text+'&url='+url;
+  document.getElementById('share-telegram').href='https://t.me/share/url?url='+url+'&text='+text;
+  document.getElementById('share-modal').classList.add('open');
+}
+function closeShare(){document.getElementById('share-modal').classList.remove('open');}
+function copyLink(){
+  navigator.clipboard.writeText(window.location.href).then(()=>showToast('🔗 Enlace copiado'));
+  closeShare();
+}
+
+// ── TOAST ─────────────────────────────────────────────────────────
+function showToast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg;
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2800);
+}
+
+// ══════════════════════════════════════════════════════════════════
+// NEWSLETTER AUTOMÁTICO DIARIO
+// ══════════════════════════════════════════════════════════════════
+
+const NL_TOPICS = ['economía argentina', 'mercados globales', 'política económica internacional'];
+const NL_STORAGE_KEY = 'ecomind_newsletters_v2';
+const NL_LAST_GEN_KEY = 'ecomind_last_gen_date';
+const NL_MAX_EDITIONS = 30; // guardar últimas 30 ediciones
+
+function getTodayStr(){
+  return new Date().toISOString().slice(0,10); // "2026-05-13"
+}
+function formatDateES(isoStr){
+  const d = new Date(isoStr+'T12:00:00');
+  return d.toLocaleDateString('es-AR',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+}
+function escapeHtml(t){
+  return String(t||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+// ── Storage helpers ────────────────────────────────────────────────
+function nlLoad(){
+  try{ return JSON.parse(localStorage.getItem(NL_STORAGE_KEY)||'[]'); }
+  catch(e){ return []; }
+}
+function nlSave(editions){
+  localStorage.setItem(NL_STORAGE_KEY, JSON.stringify(editions.slice(0, NL_MAX_EDITIONS)));
+}
+function nlGetLastDate(){
+  return localStorage.getItem(NL_LAST_GEN_KEY)||'';
+}
+function nlSetLastDate(d){
+  localStorage.setItem(NL_LAST_GEN_KEY, d);
+}
+
+// ── Render all editions ────────────────────────────────────────────
+function renderAllNewsletters(){
+  const feed = document.getElementById('nl-feed');
+  const editions = nlLoad();
+  if(!editions.length){
+    feed.innerHTML = `<div style="text-align:center;padding:50px 20px;color:var(--muted);">
+      <div style="font-size:40px;margin-bottom:14px;">📰</div>
+      <p style="font-size:15px;">Todavía no hay ediciones. Hacé clic en <strong style="color:var(--text)">Generar ahora</strong> para crear la primera.</p>
+    </div>`;
+    return;
+  }
+  feed.innerHTML = editions.map((ed, idx) => buildEditionHtml(ed, idx)).join('');
+}
+
+function buildEditionHtml(ed, idx){
+  const isToday = ed.fecha === getTodayStr();
+  const likesStored = ed.likes || 0;
+  const shareUrl = encodeURIComponent('https://ecomind.ar');
+  const shareText = encodeURIComponent((ed.titulo||'Newsletter ECOMIND') + ' — ECOMIND: ');
+
+  const noticias = (ed.noticias||[]).map((n,i)=>`
+    <div class="nl-noticia">
+      <div class="nl-noticia-num">Noticia ${i+1}</div>
+      <div class="nl-noticia-titular">${escapeHtml(n.titular)}</div>
+      <div class="nl-noticia-bloque">
+        <div class="nl-noticia-label">Qué pasó</div>
+        <div class="nl-noticia-text">${escapeHtml(n.que_paso)}</div>
+      </div>
+      <div class="nl-noticia-bloque">
+        <div class="nl-noticia-label">Cómo te afecta</div>
+        <div class="nl-noticia-text">${escapeHtml(n.como_te_afecta)}</div>
+      </div>
+      <div class="nl-noticia-tags">${(n.tags||[]).map(t=>`<span class="tag">${escapeHtml(t)}</span>`).join('')}</div>
+    </div>`).join('');
+
+  return `
+  <div class="nl-edition" id="edition-${idx}">
+    <div class="nl-edition-header">
+      <span class="nl-edition-badge ${isToday?'today':''}">${isToday?'✦ Edición de hoy':'📅 '+formatDateES(ed.fecha)}</span>
+      <span class="nl-edition-date">${isToday?'Publicada hoy':'Archivo · '+ed.fecha}</span>
+    </div>
+    <div class="nl-edition-title">${escapeHtml(ed.titulo)}</div>
+    <div class="nl-edition-resumen">${escapeHtml(ed.resumen)}</div>
+    ${noticias}
+    <div class="nl-conclusion">${escapeHtml(ed.conclusion)}</div>
+    <div class="nl-footer">
+      <button class="like-btn" onclick="nlToggleLike(this,${idx})" id="likeBtn-${idx}">
+        ♥ <span class="lcount">${likesStored}</span>
+      </button>
+      <div class="nl-share-group">
+        <a class="share-pill" href="https://wa.me/?text=${shareText+shareUrl}" target="_blank">💬 WhatsApp</a>
+        <a class="share-pill" href="https://twitter.com/intent/tweet?text=${shareText}&url=${shareUrl}" target="_blank">𝕏 Twitter</a>
+        <a class="share-pill" href="https://t.me/share/url?url=${shareUrl}&text=${shareText}" target="_blank">✈ Telegram</a>
+        <button class="share-pill" onclick="nlCopyLink('${escapeHtml(ed.titulo)}')">🔗 Copiar</button>
+      </div>
+    </div>
+  </div>`;
+}
+
+function nlToggleLike(btn, idx){
+  const editions = nlLoad();
+  if(!editions[idx]) return;
+  const span = btn.querySelector('.lcount');
+  const liked = btn.classList.toggle('liked');
+  const newCount = (editions[idx].likes||0) + (liked?1:-1);
+  editions[idx].likes = Math.max(0, newCount);
+  span.textContent = editions[idx].likes;
+  nlSave(editions);
+}
+
+function nlCopyLink(title){
+  navigator.clipboard.writeText('https://ecomind.ar — '+title).then(()=>showToast('🔗 Enlace copiado'));
+}
+
+// ── Status bar ─────────────────────────────────────────────────────
+function setStatus(state, text){
+  const dot = document.getElementById('nl-dot');
+  const txt = document.getElementById('nl-status-text');
+  dot.className = 'nl-dot ' + state;
+  txt.textContent = text;
+}
+
+// ── Generate via API ───────────────────────────────────────────────
+async function triggerNewsletter(auto){
+  const btn = document.getElementById('nl-gen-btn');
+  const genBox = document.getElementById('nl-generating');
+  const feed = document.getElementById('nl-feed');
+
+  btn.disabled = true;
+  btn.textContent = '⏳ Generando...';
+  setStatus('loading', auto ? 'Generando edición diaria automáticamente...' : 'Buscando noticias de hoy...');
+  genBox.style.display = 'block';
+  feed.style.opacity = '0.4';
+
+  const today = getTodayStr();
+  const fechaTexto = formatDateES(today);
+  const topicsStr = NL_TOPICS.join(', ');
+
+  const prompt = `Sos el editor de ECOMIND, plataforma argentina de educación financiera. Hoy es ${fechaTexto}.
+
+Buscá en tiempo real las 3 noticias económicas más importantes de las últimas 24-48 horas sobre: ${topicsStr}.
+
+Respondé ÚNICAMENTE con un JSON válido, sin markdown, sin texto extra, con este esquema exacto:
+{
+  "titulo": "Titular atractivo del newsletter de hoy (máx 90 chars)",
+  "resumen": "2-3 oraciones que sinteticen el panorama económico del día",
+  "noticias": [
+    {
+      "titular": "Titular de la noticia real y actual",
+      "que_paso": "2-3 oraciones explicando qué ocurrió, lenguaje simple, sin tecnicismos",
+      "como_te_afecta": "2-3 oraciones explicando el impacto concreto en una persona común en Argentina",
+      "tags": ["tag1","tag2","tag3"]
+    }
+  ],
+  "conclusion": "Reflexión final de 2 oraciones motivadora para el lector"
+}
+
+Reglas: 3 noticias exactas. Noticias reales y actuales. Priorizá impacto en Argentina aunque sean internacionales. Lenguaje rioplatense (vos/ustedes). Sin tecnicismos innecesarios. Solo el JSON.`;
+
+  try{
+    const res = await fetch('/api/claude',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({
+        model:'claude-sonnet-4-20250514',
+        max_tokens:1000,
+        tools:[{"type":"web_search_20250305","name":"web_search"}],
+        messages:[{role:'user',content:prompt}]
+      })
+    });
+    const data = await res.json();
+    const fullText = data.content.map(c=>c.text||'').filter(Boolean).join('\n');
+    const jsonMatch = fullText.match(/\{[\s\S]*\}/);
+    if(!jsonMatch) throw new Error('No JSON en respuesta');
+    const nl = JSON.parse(jsonMatch[0]);
+
+    // Guardar edición
+    const editions = nlLoad();
+    // Reemplazar si ya existe edición de hoy
+    const existIdx = editions.findIndex(e=>e.fecha===today);
+    const newEdition = { ...nl, fecha: today, likes: 0 };
+    if(existIdx>=0) editions[existIdx] = newEdition;
+    else editions.unshift(newEdition);
+    nlSave(editions);
+    nlSetLastDate(today);
+
+    genBox.style.display = 'none';
+    feed.style.opacity = '1';
+    renderAllNewsletters();
+    setStatus('live', `Edición de hoy publicada · ${new Date().toLocaleTimeString('es-AR',{hour:'2-digit',minute:'2-digit'})}`);
+    showToast('✅ Newsletter del día generado');
+
+  } catch(e){
+    genBox.style.display = 'none';
+    feed.style.opacity = '1';
+    setStatus('error', 'Error al generar. Intentá de nuevo.');
+    showToast('❌ No se pudo generar el newsletter');
+  }
+
+  btn.disabled = false;
+  btn.textContent = '↻ Generar ahora';
+}
+
+// ── Auto-check on load ─────────────────────────────────────────────
+function nlAutoCheck(){
+  const today = getTodayStr();
+  const lastGen = nlGetLastDate();
+  const editions = nlLoad();
+  const hasToday = editions.some(e=>e.fecha===today);
+
+  renderAllNewsletters();
+
+  if(!hasToday){
+    setStatus('loading','No hay edición de hoy. Generando automáticamente...');
+    // pequeño delay para que cargue la UI primero
+    setTimeout(()=>triggerNewsletter(true), 1200);
+  } else {
+    const ed = editions[0];
+    setStatus('live',`Última edición: hoy · ${NL_TOPICS.slice(0,2).join(' · ')}`);
+  }
+}
+
+// ── EXCHANGE ──────────────────────────────────────────────────────
+// Datos estáticos de fallback (idealmente se conecta a bluelytics.com.ar u otra API CORS)
+const staticRates=[
+  {flag:'🇺🇸',name:'Dólar Oficial',code:'USD Oficial',rate:'$1.130',change:'+0.4%',up:true},
+  {flag:'🔵',name:'Dólar Blue',code:'USD Blue',rate:'$1.185',change:'+0.8%',up:true},
+  {flag:'💻',name:'Dólar MEP',code:'USD MEP',rate:'$1.178',change:'-0.2%',up:false},
+  {flag:'🏦',name:'Dólar CCL',code:'USD CCL',rate:'$1.190',change:'+0.1%',up:true},
+  {flag:'🇧🇷',name:'Real Brasileño',code:'BRL',rate:'$215',change:'+0.3%',up:true},
+  {flag:'🇪🇺',name:'Euro',code:'EUR',rate:'$1.240',change:'+0.6%',up:true},
+  {flag:'🇨🇱',name:'Peso Chileno',code:'CLP',rate:'$1.1',change:'-0.1%',up:false},
+  {flag:'₿',name:'Bitcoin',code:'BTC / USD',rate:'$103.420',change:'+1.2%',up:true},
+];
+let exchangeLoaded=false;
+function loadExchange(){
+  if(exchangeLoaded) return;
+  exchangeLoaded=true;
+  const grid=document.getElementById('exchange-grid');
+  // Intentar API pública CORS-friendly
+  fetch('https://api.bluelytics.com.ar/v2/latest')
+    .then(r=>r.json())
+    .then(data=>{
+      const rates=[
+        {flag:'🇺🇸',name:'Dólar Oficial',code:'USD Oficial',rate:'$'+Math.round(data.oficial.value_sell),change:'+N/A',up:true},
+        {flag:'🔵',name:'Dólar Blue',code:'USD Blue',rate:'$'+Math.round(data.blue.value_sell),change:'+N/A',up:true},
+        {flag:'💻',name:'Dólar MEP',code:'USD MEP',rate:'$'+Math.round(data.oficial_euro?.value_sell||1178),change:'+N/A',up:true},
+        ...staticRates.slice(3),
+      ];
+      renderRates(grid,rates);
+    })
+    .catch(()=>renderRates(grid,staticRates));
+}
+function renderRates(grid,rates){
+  grid.innerHTML=rates.map(r=>`
+    <div class="currency-card">
+      <div class="currency-top">
+        <div>
+          <div class="currency-name">${r.name}</div>
+          <div class="currency-code">${r.code}</div>
+        </div>
+        <div class="currency-flag">${r.flag}</div>
+      </div>
+      <div class="currency-rate">${r.rate}</div>
+      <span class="currency-change ${r.up?'change-up':'change-down'}">${r.up?'▲':'▼'} ${r.change}</span>
+      <div class="currency-source">Fuente: Bluelytics / referencial</div>
+    </div>`).join('');
+}
+
+// ── CHAT IA ───────────────────────────────────────────────────────
+const ACCESS_PASSWORD='ecomind2026'; // cambiá esto por la contraseña real
+
+function tryUnlock(){
+  const val=document.getElementById('access-pass').value;
+  if(val===ACCESS_PASSWORD){
+    document.getElementById('lock-card').style.display='none';
+    document.getElementById('chat-ui').classList.add('unlocked');
+    showToast('✅ Acceso desbloqueado');
+  } else {
+    showToast('❌ Contraseña incorrecta');
+    document.getElementById('access-pass').style.borderColor='#ff5e87';
+    setTimeout(()=>document.getElementById('access-pass').style.borderColor='',1500);
+  }
+}
+
+function sendSuggestion(chip){
+  document.getElementById('chat-input').value=chip.textContent;
+  sendMessage();
+}
+
+async function sendMessage(){
+  const input=document.getElementById('chat-input');
+  const text=input.value.trim();
+  if(!text) return;
+  input.value='';
+
+  const messages=document.getElementById('chat-messages');
+
+  // User bubble
+  messages.innerHTML+=`<div class="msg user"><div class="msg-bubble">${escapeHtml(text)}</div></div>`;
+
+  // Typing indicator
+  const typingId='typing-'+Date.now();
+  messages.innerHTML+=`<div class="msg ai" id="${typingId}"><div class="ai-avatar">🤖</div><div class="msg-bubble"><div class="typing"><span></span><span></span><span></span></div></div></div>`;
+  messages.scrollTop=messages.scrollHeight;
+
+  try{
+    const res=await fetch('/api/claude',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        model:'claude-sonnet-4-20250514',
+        max_tokens:1000,
+        system:'Sos el asistente financiero de ECOMIND, una plataforma de educación económica argentina. Respondés preguntas sobre finanzas personales, inversiones, tipo de cambio, inflación, economía argentina y global. Usás lenguaje claro, sin tecnicismos innecesarios, pensado para personas que están aprendiendo. Sos amable, preciso y siempre aclarás que tus respuestas son orientativas y no constituyen asesoramiento financiero profesional. Respondés en español rioplatense (vos, ustedes).',
+        messages:[{role:'user',content:text}]
+      })
+    });
+    const data=await res.json();
+    const reply=data.content?.map(c=>c.text||'').join('\n')||'No pude procesar esa consulta.';
+    document.getElementById(typingId).remove();
+    messages.innerHTML+=`<div class="msg ai"><div class="ai-avatar">🤖</div><div class="msg-bubble">${escapeHtml(reply)}</div></div>`;
+  } catch(e){
+    document.getElementById(typingId).remove();
+    messages.innerHTML+=`<div class="msg ai"><div class="ai-avatar">🤖</div><div class="msg-bubble">Hubo un error al conectar con el asistente. Intentá de nuevo en unos segundos.</div></div>`;
+  }
+  messages.scrollTop=messages.scrollHeight;
+}
+</script>
+</body>
+</html>
